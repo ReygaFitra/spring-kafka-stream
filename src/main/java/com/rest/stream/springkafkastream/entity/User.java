@@ -1,9 +1,6 @@
 package com.rest.stream.springkafkastream.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,18 +12,19 @@ import java.util.UUID;
 @Table(name = "users")
 public class User {
     @Id
-    @Column(updatable = false, nullable = false)
-    private UUID USER_ID;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "USER_ID", updatable = false, nullable = false)
+    private UUID userId;
 
-    @Column(nullable = false, length = 100)
-    private String FULL_NAME;
+    @Column(name = "FULL_NAME", nullable = false, length = 100)
+    private String fullName;
 
-    @Column(nullable = false, length = 400)
-    private String ADDRESS;
+    @Column(name = "ADDRESS", nullable = false, length = 400)
+    private String address;
 
-    @Column(nullable = false, length = 50, unique = true)
-    private String EMAIL;
+    @Column(name = "EMAIL", nullable = false, length = 50, unique = true)
+    private String email;
 
-    @Column(nullable = false, length = 20, unique = true)
-    private String PHONE_NUMBER;
+    @Column(name = "PHONE_NUMBER", nullable = false, length = 20, unique = true)
+    private String phoneNumber;
 }

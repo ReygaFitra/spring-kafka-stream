@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor;
 public class InsertUserRequest {
     @NotBlank
     private String fullName;
-
     @NotBlank
     private String address;
 
@@ -23,3 +22,4 @@ public class InsertUserRequest {
     @NotBlank
     private String phoneNumber;
 }
+

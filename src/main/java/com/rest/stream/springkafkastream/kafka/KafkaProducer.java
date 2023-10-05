@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class KafkaProducer {
     @Value("${spring.kafka.topic.name}")
@@ -23,5 +25,11 @@ public class KafkaProducer {
     public void sendMessage(User message) {
         LOGGER.info("Producer Sending message: {}", message);
         kafkaTemplate.send(TOPIC_NAME, message);
+    }
+
+    public void sendBatchMessage(List<User> messages) {
+        for (User message : messages) {
+            sendMessage(message);
+        }
     }
 }

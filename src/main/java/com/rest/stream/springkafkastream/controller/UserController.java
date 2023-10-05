@@ -1,5 +1,7 @@
 package com.rest.stream.springkafkastream.controller;
 
+import com.rest.stream.springkafkastream.dto.FindUserResponse;
+import com.rest.stream.springkafkastream.dto.FindUsersResponse;
 import com.rest.stream.springkafkastream.dto.InsertUserRequest;
 import com.rest.stream.springkafkastream.dto.InsertUserResponse;
 import com.rest.stream.springkafkastream.entity.User;
@@ -8,10 +10,10 @@ import com.rest.stream.springkafkastream.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api")
@@ -33,5 +35,33 @@ public class UserController {
                 userData
         );
         return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    public ResponseEntity<FindUsersResponse> findUsers() {
+        List<User> userData = userService.getAllUsers();
+        kafkaProducer.sendBatchMessage(userData);
+
+        FindUsersResponse response = new FindUsersResponse(
+                HttpStatus.OK.value(),
+                "Success",
+                "Users found successfully",
+                userData
+        );
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/{USER_ID}")
+    public ResponseEntity<FindUserResponse<User>> findUserById(@PathVariable UUID USER_ID) {
+        User userData = userService.getUserById(USER_ID);
+        kafkaProducer.sendMessage(userData);
+
+        FindUserResponse<User> response  = new FindUserResponse<>(
+                HttpStatus.OK.value(),
+                "Success",
+                "User found successfully",
+                userData
+        );
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

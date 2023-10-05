@@ -6,6 +6,9 @@ import com.rest.stream.springkafkastream.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.UUID;
+
 @Service
 public class UserService {
     @Autowired
@@ -13,11 +16,19 @@ public class UserService {
 
     public User saveUser(InsertUserRequest request) {
         User userData = new User();
-        userData.setFULL_NAME(request.getFullName());
-        userData.setADDRESS(request.getAddress());
-        userData.setEMAIL(request.getEmail());
-        userData.setPHONE_NUMBER(request.getPhoneNumber());
+        userData.setFullName(request.getFullName());
+        userData.setAddress(request.getAddress());
+        userData.setEmail(request.getEmail());
+        userData.setPhoneNumber(request.getPhoneNumber());
 
         return userRepository.save(userData);
+    }
+
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    public User getUserById(UUID id) {
+        return userRepository.findById(id).orElse(null);
     }
 }
