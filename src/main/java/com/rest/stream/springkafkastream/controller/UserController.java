@@ -7,11 +7,9 @@ import com.rest.stream.springkafkastream.dto.InsertUserResponse;
 import com.rest.stream.springkafkastream.entity.User;
 import com.rest.stream.springkafkastream.kafka.KafkaProducer;
 import com.rest.stream.springkafkastream.service.UserService;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,7 +17,6 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api")
-@Validated
 public class UserController {
     @Autowired
     private UserService userService;
@@ -27,7 +24,7 @@ public class UserController {
     private KafkaProducer kafkaProducer;
 
     @PostMapping
-    public ResponseEntity<InsertUserResponse<User>> insertUser(@Valid @RequestBody InsertUserRequest request) {
+    public ResponseEntity<InsertUserResponse<User>> insertUser(@RequestBody InsertUserRequest request) {
         User userData = userService.saveUser(request);
         kafkaProducer.sendMessage(userData);
 

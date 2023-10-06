@@ -1,5 +1,6 @@
 package com.rest.stream.springkafkastream.dto;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -13,6 +14,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class InsertUserRequest {
+    @Valid
+
     @NotBlank(message = "User Name is required")
     private String fullName;
 

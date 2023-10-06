@@ -7,8 +7,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class InsertUserResponseError<T> {
+public class InsertUserResponseError {
     private Integer statusCode;
     private String status;
-    private T data;
+    private String message;
 }
