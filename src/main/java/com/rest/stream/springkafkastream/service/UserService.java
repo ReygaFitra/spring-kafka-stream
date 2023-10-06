@@ -2,6 +2,7 @@ package com.rest.stream.springkafkastream.service;
 
 import com.rest.stream.springkafkastream.dto.InsertUserRequest;
 import com.rest.stream.springkafkastream.entity.User;
+import com.rest.stream.springkafkastream.exception.UserNotFoundException;
 import com.rest.stream.springkafkastream.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,6 @@ public class UserService {
     }
 
     public User getUserById(UUID id) {
-        return userRepository.findById(id).orElse(null);
+        return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));
     }
 }
